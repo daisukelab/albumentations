@@ -728,7 +728,8 @@ class Normalize(ImageOnlyTransform):
     def apply(self, image, **params):
         mean = np.mean(image, axis=(0, 1)) if self.samplewise else self.mean
         std  = np.std(image, axis=(0, 1)) + 1e-07 if self.samplewise else self.std
-        return F.normalize(image, mean, std, self.max_pixel_value)
+        max_pixel_value = 1.0 if self.samplewise else self.max_pixel_value
+        return F.normalize(image, mean, std, max_pixel_value)
 
 
 class Cutout(ImageOnlyTransform):
